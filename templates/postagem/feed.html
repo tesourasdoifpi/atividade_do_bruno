@@ -1,29 +1,65 @@
-
 {% extends "index.html" %}
 
 {% block title %}Feed de Postagens{% endblock %}
 
 {% block content %}
+<main class="py-5 flex-grow-1">
+    <div class="container container-forum">
+        <!-- Cabeçalho do Feed -->
+        <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mb-4 pb-3 border-bottom border-subtle">
+            <div>
+                <h1 class="h2 fw-bold text-white mb-1">Feed de Postagens</h1>
+                <p class="small text-secondary-custom mb-0">Explore os tópicos mais recentes compartilhados pela comunidade</p>
+            </div>
+            {% if session.get('username') %}
+            <a href="/postagem" class="btn btn-primary-glow px-3 py-2 d-inline-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Nova Postagem</span>
+            </a>
+            {% endif %}
+        </div>
 
-<main>
-    <h1>Feed de Postagens</h1>
+        {% if postagens %}
+            <div class="d-flex flex-column gap-3">
+                {% for postagem in postagens %}
+                    <article class="post-card p-4">
+                        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                            <div class="flex-grow-1">
+                                <div class="mb-2">
+                                    <span class="author-pill d-inline-flex align-items-center gap-2">
+                                        <i class="bi bi-person-circle text-accent"></i>
+                                        <span>Autor: <strong class="text-white">{{ postagem.autor }}</strong></span>
+                                    </span>
+                                </div>
+                                <h2 class="h5 fw-bold text-white mb-2">{{ postagem.titulo }}</h2>
+                                <p class="text-secondary-custom small mb-0 post-excerpt">{{ postagem.conteudo | truncate(10) }}</p>
+                            </div>
 
-    {% if postagens %}
-        <ul>
-            {% for postagem in postagens %}
-                <li>
-                    <p>Autor: {{ postagem.autor }}</p>
-                    <h2>{{ postagem.titulo }}</h2>
-                    <p>{{ postagem.conteudo | truncate(10) }}</p>
-                    <a href="{{ url_for('detalhes_postagem', id=postagem.id) }}">
-                        Leia mais
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Nenhuma postagem encontrada.</p>
-    {% endif %}
+                            <div class="flex-shrink-0">
+                                <a href="{{ url_for('detalhes_postagem', id=postagem.id) }}" class="btn btn-outline-glass btn-sm px-3 py-2 d-inline-flex align-items-center gap-2">
+                                    <span>Leia mais</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state-card text-center p-5 mx-auto">
+                <div class="auth-icon-badge mx-auto mb-3">
+                    <i class="bi bi-chat-square-dots"></i>
+                </div>
+                <h2 class="h5 fw-bold text-white mb-2">Nenhuma postagem encontrada.</h2>
+                <p class="small text-secondary-custom mb-4">O feed ainda está vazio. Seja o primeiro a iniciar uma conversa!</p>
+                {% if session.get('username') %}
+                <a href="/postagem" class="btn btn-primary-glow px-4 py-2 d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Criar Primeira Postagem</span>
+                </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
 </main>
-
 {% endblock %}

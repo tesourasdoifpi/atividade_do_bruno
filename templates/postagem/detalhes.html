@@ -3,18 +3,31 @@
 {% block title %}Feed de Postagens{% endblock %}
 
 {% block content %}
+<main class="py-5 px-3 flex-grow-1">
+    <div class="container post-detail-wrapper">
+        <div class="mb-4">
+            <a href="/feed" class="btn btn-ghost btn-sm px-3 py-2 d-inline-flex align-items-center gap-2">
+                <i class="bi bi-arrow-left"></i>
+                <span>Voltar para o Feed</span>
+            </a>
+        </div>
 
+        <article class="post-detail-card p-4 p-sm-5">
+            <header class="pb-4 mb-4 border-bottom border-subtle">
+                <div class="mb-3">
+                    <span class="author-pill d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-person-circle text-accent"></i>
+                        <span>Autor: <strong class="text-white">{{ postagem.autor }}</strong></span>
+                    </span>
+                </div>
 
-    <main>
-        <h1>{{ postagem.titulo }}</h1>
+                <h1 class="h2 fw-bold text-white mb-0 post-detail-title">{{ postagem.titulo }}</h1>
+            </header>
 
-        <p>Autor: {{ postagem.autor }}</p>
-        
-        <p>{{ postagem.conteudo }}</p>
-                        
-                  
-                
-    </main>
-
+            <div class="post-content-body">
+                <p class="mb-0">{{ postagem.conteudo }}</p>
+            </div>
+        </article>
+    </div>
+</main>
 {% endblock %}
-

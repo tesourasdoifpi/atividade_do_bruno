@@ -3,7 +3,7 @@ from models.postagem import Postagem
 
 def minhas_postagens():
     if session['username']:
-        postagens = Postagem().listar_postagens_por_usuario(session['usuario_id'])
+        postagens = Postagem.listar_postagens_por_usuario(session['usuario_id'])
         return render_template("postagem/minhas_postagens.html", postagens=postagens)
     return redirect(url_for('login'))
 

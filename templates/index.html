@@ -1,45 +1,197 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Início{% endblock %} - Fórum de discussão</title>
-</head>
-<body>
 
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Início</a></li>
-                {% if session.get('username') %}
-                <li><a href="/feed">Feed</a></li>
-                <li><a href="/postagem">Nova Postagem</a></li>
-                <li><a href="/minhas-postagens">Minhas Postagens</a></li>
-                <li><a href="/logout">Sair</a></li>
-                {% else %}
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/cadastro">Cadastro</a></li>
-                {% endif %}
-            </ul>
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3 CSS & Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-yEPZ7jP9S0QKiUQ0m3jjsO4ProIW7wvR9gXkI7JOGa2XVsw53Yke2bsdkBbjmmiX" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="d-flex flex-column min-vh-100 app-body">
+
+    <!-- Ambient Background Glow -->
+    <div class="ambient-glow ambient-glow-1" aria-hidden="true"></div>
+    <div class="ambient-glow ambient-glow-2" aria-hidden="true"></div>
+
+    <!-- Navbar Sticky com Glassmorphism -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-glass">
+            <div class="container py-1">
+                <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="/">
+                    <span class="brand-icon d-inline-flex align-items-center justify-content-center">
+                        <i class="bi bi-chat-square-quote-fill"></i>
+                    </span>
+                    <span class="brand-text">Fórum<span class="text-accent">.dev</span></span>
+                </a>
+
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarForum" aria-controls="navbarForum" aria-expanded="false" aria-label="Alternar navegação">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarForum">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 gap-lg-1">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/">
+                                <i class="bi bi-house-door me-1"></i>Início
+                            </a>
+                        </li>
+                        {% if session.get('username') %}
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/feed">
+                                <i class="bi bi-compass me-1"></i>Feed
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/minhas-postagens">
+                                <i class="bi bi-collection me-1"></i>Minhas Postagens
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-2 mt-2 mt-lg-0">
+                        {% if session.get('username') %}
+                        <li class="nav-item">
+                            <a class="btn btn-primary-glow btn-sm px-3 py-2 d-inline-flex align-items-center gap-2 w-100 justify-content-center" href="/postagem">
+                                <i class="bi bi-plus-circle-fill"></i>
+                                <span>Nova Postagem</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="user-badge d-inline-flex align-items-center gap-2 px-3 py-2 w-100 justify-content-center">
+                                <i class="bi bi-person-circle text-accent"></i>
+                                <span>{{ session.get('username') }}</span>
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-ghost-danger btn-sm px-3 py-2 d-inline-flex align-items-center gap-1 w-100 justify-content-center" href="/logout">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sair</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="btn btn-ghost btn-sm px-3 py-2 w-100" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary-glow btn-sm px-3 py-2 w-100" href="/cadastro">Cadastro</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
 
+    <!-- Conteúdo Principal -->
+    <div class="flex-grow-1 d-flex flex-column position-relative z-1">
+        {% block content %}
+        <main class="hero-section d-flex align-items-center flex-grow-1 py-5">
+            <div class="container">
+                <div class="row justify-content-center text-center">
+                    <div class="col-lg-8 col-xl-7">
+                        <div class="hero-pill d-inline-flex align-items-center gap-2 px-3 py-1 mb-4">
+                            <span class="pulse-dot"></span>
+                            <span>Comunidade de Discussões</span>
+                        </div>
 
-    {% block content %}
-    <main>
-        <h1>Fórum de discussão!</h1>
-        {% if session.get('username') %}
-            <p>Olá, {{ session.get('username') }}! Seja bem-vindo(a) ao Fórum</p>
-        {% else %}
-            <p>Olá, visitante! Faça <a href="/login">login</a> ou <a href="/cadastro">cadastre-se</a> para participar do Fórum.</p>
-        {% endif %}
-        <p>Este é o nosso fórum de discussão!</p>
-    </main>
-    {% endblock %}
+                        <h1 class="hero-title mb-3">
+                            Fórum de <span class="text-gradient">discussão!</span>
+                        </h1>
 
-    <footer>
-        <p>© 2026 Fórum de Discussão. Todos os direitos reservados.</p>
+                        {% if session.get('username') %}
+                            <p class="hero-subtitle mb-2">
+                                Olá, <strong class="text-white">{{ session.get('username') }}</strong>! Seja bem-vindo(a) ao Fórum.
+                            </p>
+                            <p class="text-secondary-custom mb-4">
+                                Este é o nosso fórum de discussão! Explore tópicos recentes ou compartilhe suas ideias com a comunidade.
+                            </p>
+                            <div class="d-flex flex-column flex-sm-row justify-content-center gap-3 mt-4">
+                                <a href="/feed" class="btn btn-primary-glow btn-lg px-4 d-inline-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-compass-fill"></i>
+                                    <span>Explorar o Feed</span>
+                                </a>
+                                <a href="/postagem" class="btn btn-outline-glass btn-lg px-4 d-inline-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-pencil-square"></i>
+                                    <span>Nova Postagem</span>
+                                </a>
+                            </div>
+                        {% else %}
+                            <p class="hero-subtitle mb-2">
+                                Olá, visitante! Faça <a href="/login" class="link-accent">login</a> ou <a href="/cadastro" class="link-accent">cadastre-se</a> para participar do Fórum.
+                            </p>
+                            <p class="text-secondary-custom mb-4">
+                                Este é o nosso fórum de discussão! Conecte-se para criar tópicos, interagir e acompanhar publicações.
+                            </p>
+                            <div class="d-flex flex-column flex-sm-row justify-content-center gap-3 mt-4">
+                                <a href="/cadastro" class="btn btn-primary-glow btn-lg px-4 d-inline-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-rocket-takeoff-fill"></i>
+                                    <span>Criar Conta</span>
+                                </a>
+                                <a href="/login" class="btn btn-outline-glass btn-lg px-4 d-inline-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    <span>Fazer Login</span>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Destaques da Comunidade -->
+                <div class="row g-4 mt-5 justify-content-center">
+                    <div class="col-md-4">
+                        <div class="feature-card h-100 p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="bi bi-lightning-charge-fill"></i>
+                            </div>
+                            <h2 class="h6 fw-bold text-white mb-2">Debates Ágeis</h2>
+                            <p class="small text-secondary-custom mb-0">Acompanhe o feed em tempo real e participe das conversas mais relevantes.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card h-100 p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <h2 class="h6 fw-bold text-white mb-2">Troca de Conhecimento</h2>
+                            <p class="small text-secondary-custom mb-0">Publique dúvidas, insights e soluções para ajudar outros membros.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card h-100 p-4">
+                            <div class="feature-icon mb-3">
+                                <i class="bi bi-bookmark-star-fill"></i>
+                            </div>
+                            <h2 class="h6 fw-bold text-white mb-2">Suas Publicações</h2>
+                            <p class="small text-secondary-custom mb-0">Gerencie suas ideias e acompanhe tudo o que você compartilhou em um só lugar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        {% endblock %}
+    </div>
+
+    <!-- Footer Sticky -->
+    <footer class="footer-custom mt-auto py-4 position-relative z-1">
+        <div class="container text-center">
+            <p class="mb-0 small text-secondary-custom">
+                © 2026 Fórum de Discussão. Todos os direitos reservados.
+            </p>
+        </div>
     </footer>
-    
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/js/bootstrap.bundle.min.js" integrity="sha384-WyOxWvTyr1QaMPfiPJSv76iReVthorl5uWlFtZPyK0IEB0hGzo9y5Bp9mYanr8Bu" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -3,25 +3,60 @@
 {% block title %}Feed de Postagens{% endblock %}
 
 {% block content %}
+<main class="py-5 flex-grow-1">
+    <div class="container container-forum">
+        <!-- Cabeçalho da Seção -->
+        <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mb-4 pb-3 border-bottom border-subtle">
+            <div>
+                <h1 class="h2 fw-bold text-white mb-1">Minhas Postagens</h1>
+                <p class="small text-secondary-custom mb-0">Acompanhe todas as discussões que você iniciou no fórum</p>
+            </div>
+            <a href="/postagem" class="btn btn-primary-glow px-3 py-2 d-inline-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Nova Postagem</span>
+            </a>
+        </div>
 
-
-    <main>
-        <h1>Minhas Postagens</h1>
         {% if postagens %}
-            <ul>
+            <div class="row g-4">
                 {% for postagem in postagens %}
-                    <li>
-                        <p>Autor: {{ postagem.autor }}</p>
-                        <h2>{{ postagem.titulo }}</h2>
-                        <p>{{ postagem.conteudo[:10] }}</p>
-                        <a href="{{ url_for('detalhes_postagem', postagem.titulo) }}">Leia mais</a>
-                    </li>
+                    <div class="col-md-6">
+                        <article class="post-card h-100 p-4 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+                                    <span class="author-pill d-inline-flex align-items-center gap-2">
+                                        <i class="bi bi-person-circle text-accent"></i>
+                                        
+                                    </span>
+                                </div>
+
+                                <h2 class="h5 fw-bold text-white mb-2">{{ postagem.titulo }}</h2>
+                                <p class="text-secondary-custom small mb-4 post-excerpt">{{ postagem.conteudo[:10] }}</p>
+                            </div>
+
+                            <div class="pt-3 border-top border-subtle d-flex justify-content-end">
+                                <a href="{{ url_for('detalhes_postagem', id=postagem.id) }}" class="read-more-link d-inline-flex align-items-center gap-1">
+                                    <span>Leia mais</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% else %}
-            <p>Nenhuma postagem encontrada.</p>
+            <div class="empty-state-card text-center p-5 mx-auto">
+                <div class="auth-icon-badge mx-auto mb-3">
+                    <i class="bi bi-journal-x"></i>
+                </div>
+                <h2 class="h5 fw-bold text-white mb-2">Nenhuma postagem encontrada.</h2>
+                <p class="small text-secondary-custom mb-4">Você ainda não publicou nenhum tópico. Que tal começar agora?</p>
+                <a href="/postagem" class="btn btn-primary-glow px-4 py-2 d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Escrever Postagem</span>
+                </a>
+            </div>
         {% endif %}
-    </main>
-
+    </div>
+</main>
 {% endblock %}
-
