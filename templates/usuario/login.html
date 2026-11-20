@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+
+{% block title %}Login{% endblock %}
+
+
+
+
+{% block content %}
+
+
+
+{% for error in errors %}
+    <p style="color: red;">{{ error }}</p>
+{% endfor %}
+
+
+    <main>
+        <h1>Login</h1>
+        <form method="POST" action="/login">
+            <label for="username">Nome de usuário:</label>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required><br><br>
+
+            <input type="submit" value="Entrar">
+        </form>
+    </main>
+
+{% endblock %}
+

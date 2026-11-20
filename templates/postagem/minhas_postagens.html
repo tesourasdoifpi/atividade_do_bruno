@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+
+{% block title %}Feed de Postagens{% endblock %}
+
+{% block content %}
+
+
+    <main>
+        <h1>Minhas Postagens</h1>
+        {% if postagens %}
+            <ul>
+                {% for postagem in postagens %}
+                    <li>
+                        <p>Autor: {{ postagem.autor }}</p>
+                        <h2>{{ postagem.titulo }}</h2>
+                        <p>{{ postagem.conteudo[:10] }}</p>
+                        <a href="{{ url_for('detalhes_postagem', postagem.titulo) }}">Leia mais</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nenhuma postagem encontrada.</p>
+        {% endif %}
+    </main>
+
+{% endblock %}
+

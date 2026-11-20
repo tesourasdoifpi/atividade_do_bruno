@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Início{% endblock %} - Fórum de discussão</title>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Início</a></li>
+                {% if session.get('username') %}
+                <li><a href="/feed">Feed</a></li>
+                <li><a href="/postagem">Nova Postagem</a></li>
+                <li><a href="/minhas-postagens">Minhas Postagens</a></li>
+                <li><a href="/logout">Sair</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/cadastro">Cadastro</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+
+    {% block content %}
+    <main>
+        <h1>Fórum de discussão!</h1>
+        {% if session.get('username') %}
+            <p>Olá, {{ session.get('username') }}! Seja bem-vindo(a) ao Fórum</p>
+        {% else %}
+            <p>Olá, visitante! Faça <a href="/login">login</a> ou <a href="/cadastro">cadastre-se</a> para participar do Fórum.</p>
+        {% endif %}
+        <p>Este é o nosso fórum de discussão!</p>
+    </main>
+    {% endblock %}
+
+    <footer>
+        <p>© 2026 Fórum de Discussão. Todos os direitos reservados.</p>
+    </footer>
+    
+</body>
+</html>

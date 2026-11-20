@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block title %}Minhas Postagens{% endblock %}
+
+{% block content %}
+
+{% for error in errors %}
+    <p style="color: red;">{{ error }}</p>
+{% endfor %}
+
+
+    <main>
+        <h1>Escrever Postagem</h1>
+        <form method="POST" action="/postagem">
+            <div>
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" required>
+            </div>
+            <div>
+                <label for="conteudo">Conteúdo:</label>
+                <textarea id="conteudo" name="conteudo" required></textarea>
+            </div>
+            <button type="submit">Publicar</button>
+        </form>
+    </main>
+
+{% endblock %}
+
+
+
